@@ -1,5 +1,5 @@
 def COLOR_MAP = [
-    'SUCCESS'; 'good',
+    'SUCCESS': 'good',
     'FAILURE': 'danger',
 ]
 pipeline {
@@ -11,7 +11,7 @@ pipeline {
     stages{
         stage('Fetch Code'){
             steps {
-                git branch: 'main', url: 'https://github.com/hkhcoder/vprofile-project'
+                git branch: 'main', url: 'https://github.com/hkhcoder/vprofile-project.git'
             }
         }
         stage('Build'){
