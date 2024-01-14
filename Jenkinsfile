@@ -8,6 +8,8 @@ pipeline {
         registryCredential = 'ecr:us-east-1:awscredential'
         appRegistry = '89462670469.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg'
         vprofileRegistry = 'https://989462670469.dkr.ecr.us-east-1.amazonaws.com'
+        cluster = ''
+        service = ''
     }
     tools {
         maven "MAVEN3"
@@ -78,7 +80,13 @@ pipeline {
                 }
             }
         }
-        
+        stage('Deploy to ecs') {
+            steps {
+                withAWS(credentials: 'awscreds', region: 'us-east-2') {
+                    sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+                }
+            }
+        }
     }
     post {
         always {
