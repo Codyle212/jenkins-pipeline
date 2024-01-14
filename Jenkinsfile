@@ -16,7 +16,7 @@ pipeline {
     stages{
         stage('Fetch Code'){
             steps {
-                git branch: 'main', url: 'https://github.com/Codyle212/jenkins-pipeline'
+                git branch: 'docker', url: 'https://github.com/devopshydclub/vprofile-project.git'
             }
         }
         stage('Unit Test'){
