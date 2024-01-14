@@ -11,7 +11,7 @@ pipeline {
     stages{
         stage('Fetch Code'){
             steps {
-                git branch: 'main', url: 'https://github.com/Codyle212/jenkins-pipeline'
+                git branch: 'main', url: 'https://github.com/hkhcoder/vprofile-project'
             }
         }
         stage('Build'){
