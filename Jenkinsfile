@@ -8,8 +8,8 @@ pipeline {
         registryCredential = 'ecr:us-east-1:awscredential'
         appRegistry = '989462670469.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg'
         vprofileRegistry = 'https://989462670469.dkr.ecr.us-east-1.amazonaws.com'
-        cluster = ''
-        service = ''
+        cluster = 'vprofile'
+        service = 'vprofileappsvc'
     }
     tools {
         maven "MAVEN3"
