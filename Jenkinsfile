@@ -19,18 +19,6 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Codyle212/jenkins-pipeline'
             }
         }
-        stage('Build'){
-            steps {
-                sh 'mvn install -DskipTests'
-            }
-
-            post{
-                success {
-                    echo 'Archiving artifacts now.'
-                    archiveArtifacts artifacts: '**/*.war'
-                }
-            }
-        }
         stage('Unit Test'){
             steps{
                 sh 'mvn test'
