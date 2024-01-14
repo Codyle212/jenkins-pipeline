@@ -9,4 +9,6 @@
 ## Plugins
 
 - docker pipeline
--
+- aws sdk::all
+- cloudbees build and publish
+- amazon ecr
