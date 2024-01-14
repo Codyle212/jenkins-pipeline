@@ -4,6 +4,11 @@ def COLOR_MAP = [
 ]
 pipeline {
     agent any
+    environment {
+        registryCredential = 'ecr:us-east-1:awscredential'
+        appRegistry = '89462670469.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg'
+        vprofileRegistry = 'https://989462670469.dkr.ecr.us-east-1.amazonaws.com'
+    }
     tools {
         maven "MAVEN3"
         jdk "OpenJDK11"
@@ -67,25 +72,25 @@ pipeline {
                 }
             }
         }
-        stage('Upload Artifact'){
+        stage('Build App Image') {
+            steps {
+                script {
+                    dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
+                }
+            }
+    
+        }
+        stage('Upload App Image') {
             steps{
-                nexusArtifactUploader(
-                nexusVersion: 'nexus3',
-                protocol: 'http',
-                //private IP of nexus repo in vpc
-                nexusUrl: '172.31.56.23:8081',
-                groupId: 'QA',
-                version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                repository: 'vprofile-repo',
-                credentialsId: 'nexuslogin',
-                artifacts: [
-                    [artifactId: 'vproapp',
-                    classifier: '',
-                    file: 'target/vprofile-v2.war',
-                    type: 'war']
-                ])
+                script {
+                    docker.withRegistry( vprofileRegistry, registryCredential ) {
+                        dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push('latest')
+                    }
+                }
             }
         }
+        
     }
     post {
         always {
